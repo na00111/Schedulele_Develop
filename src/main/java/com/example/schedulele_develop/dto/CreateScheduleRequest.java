@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class CreateScheduleRequest {
     private String title; //할일 제목
     private String contents; //할일 내용
-    private String userName; //작성 유저명
+//    private String userName; //작성 유저명
+    private  Long userId;
 }

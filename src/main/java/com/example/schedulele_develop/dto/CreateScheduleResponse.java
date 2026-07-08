@@ -29,7 +29,8 @@ public class CreateScheduleResponse {
             this.id = schedule.getId();
             this.title = schedule.getTitle();
             this.contents = schedule.getContents();
-            this.userName = schedule.getUserName();
+//            this.userName = schedule.getUserName();
+            this.userName = schedule.getUser().getUsername();
             this.createdAt = schedule.getCreatedAt();
             this.modifiedAt = schedule.getModifiedAt();
     }
