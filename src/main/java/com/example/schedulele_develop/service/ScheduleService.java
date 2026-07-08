@@ -23,8 +23,12 @@ public class ScheduleService  {
     @Transactional
     public CreateScheduleResponse createdSchedule(CreateScheduleRequest request) {
         Schedule schedule = new Schedule(request);
+
         Schedule savedSchedule = scheduleRepository.save(schedule);
+        //리포지토리를 시켜서 DB에 영구 저장
+
         return new CreateScheduleResponse(savedSchedule);
+        //dto에 담아서 컨트롤러한테 전달
     }
 }
 
