@@ -22,7 +22,7 @@ public class User extends BaseEntity{
     private String password;
 // 유저를 처음 회원가입 할 때 사용할 생성자.
     //id는 db가 자동으로 생성
-    public User(String username, String emial) {
+    public User(String username, String email,String password) {
         this.username = username;
         this.email = email;
         this.password = password;

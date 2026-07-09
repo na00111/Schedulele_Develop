@@ -35,8 +35,9 @@ public class UserService {
     //생성자 주입
     @Transactional
     public UserResponse createUser(UserRequest request) {
+ String encodedPassword = passwordEncoder.encode(request.getPassword());
         //데이터베이스 작업의 최소 단위를 설정한다.에러 없으면 커밋,에러 -> 롤백 전부 없던 일로
-        User user = new User(request.getUsername(), request.getEmail());
+        User user = new User(request.getUsername(), request.getEmail(),encodedPassword);
         //요청 가방(리퀘스트 dto)에서 꺼낸  데이터로 유저 엔티티 객체를 생성
         User saveUser = userRepository.save(user);
         //리포지토리를 통해 db에 저장하고, 영속화된 결과 객체를 다시 받는다.
