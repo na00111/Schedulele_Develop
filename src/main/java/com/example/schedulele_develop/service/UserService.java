@@ -1,5 +1,6 @@
 package com.example.schedulele_develop.service;
 
+import com.example.schedulele_develop.config.PasswordEncoder;
 import com.example.schedulele_develop.dto.UserRequest;
 import com.example.schedulele_develop.dto.UserResponse;
 import com.example.schedulele_develop.entity.User;
@@ -15,6 +16,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder; //암호화 부품을 주입
+
+
+    @Transactional
+    public UserResponse signUp (UserRequest request) {
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        //사용자가 가입할 때 쓴  비밀번호를 암호화 부품에 넣어서 해시문으로 변경
+
+        //암호화된 비밀번호를 엔티티에 넣어서 db에 저장
+        User user = new User(request.getUsername(),request.getEmail(),encodedPassword);
+        User savedUser = userRepository.save(user);
+
+        return new UserResponse(savedUser);
+
+    }
 
     //생성자 주입
     @Transactional
