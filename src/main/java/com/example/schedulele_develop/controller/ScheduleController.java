@@ -4,6 +4,7 @@ import com.example.schedulele_develop.dto.CreateScheduleRequest;
 import com.example.schedulele_develop.dto.CreateScheduleResponse;
 import com.example.schedulele_develop.dto.SchedulePageResponse;
 import com.example.schedulele_develop.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,8 @@ public class ScheduleController {
 //일전 생성
     @PostMapping
     public ResponseEntity<CreateScheduleResponse> createSchedule (
-            @RequestBody CreateScheduleRequest request
+          //  @Valid  -> RequestBody 전에 안에 선언된 @Size나 @NotBlank 검사
+           @Valid  @RequestBody CreateScheduleRequest request
     ) {
         CreateScheduleResponse response = scheduleService.createdSchedule(request);
         return  new ResponseEntity<>(response, HttpStatus.CREATED);

@@ -3,6 +3,7 @@ package com.example.schedulele_develop.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.example.schedulele_develop.dto.ErrorResponse;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,6 +21,19 @@ public class GlobalExceptionHandler {
                 ex.getMessage()//서비스에 던진 " 존재하지 않는 유저입니다 " 문구가 그대로 들어옴
         );
         return  new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        //ResponseEntity에 클라이언트에게에러 가방을 실어서 400 BAD_REQUEST 코드로 리턴
+        //ResponseEntity에 클라이언트에게에러 가방을 실어사 400 BAD_REQUEST 코드로 리턴
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public  ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult().getFieldError().getDefaultMessage();
+        //ex.getBindingResult(): 검증 오류 결과들
+        //.getFieldError(): 필드 때문에 발생한 첫 번째 에러 정보
+        //.getDefaultMessage(): DTO에 적어둔 문자열 출력.
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(), //400
+                errorMessage  // 적어둔 문자열 출력
+        );
+        return  new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
