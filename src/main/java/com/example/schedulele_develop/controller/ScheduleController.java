@@ -2,8 +2,10 @@ package com.example.schedulele_develop.controller;
 
 import com.example.schedulele_develop.dto.CreateScheduleRequest;
 import com.example.schedulele_develop.dto.CreateScheduleResponse;
+import com.example.schedulele_develop.dto.SchedulePageResponse;
 import com.example.schedulele_develop.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +36,16 @@ public class ScheduleController {
     public  ResponseEntity<CreateScheduleResponse> getScheduleById(@PathVariable Long id) {
         CreateScheduleResponse response = scheduleService.findScheduleById(id);
         return  ResponseEntity.ok(response);
+    }
+
+
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<SchedulePageResponse>> getSchedulesPage (
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size //안 보내면 한 페이지에 기본 10개씩
+    ) {
+        Page<SchedulePageResponse> responsePage = scheduleService.getSchedule(page, size);
+        return ResponseEntity.ok(responsePage);
     }
 }
